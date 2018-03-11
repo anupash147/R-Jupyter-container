@@ -99,3 +99,10 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+rstudio-server-1.1.383-amd64.deb
+config.conf
+.DS_Store
+.idea
+.ipynb_checkpoints
+spark-warehouse

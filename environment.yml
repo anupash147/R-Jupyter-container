@@ -1,0 +1,25 @@
+name: root
+dependencies:
+- python=2.7.11
+- statsmodels=0.6.1
+- pandas=0.18.1
+- numpy=1.11.1
+- scipy=0.18.1
+- notebook
+- pip:
+  - awscli==1.11.36
+  - boto3==1.4.4
+  - botocore==1.5.56
+  - findspark==1.1.0
+  - pytz==2016.10
+# additional modules for getting access to PFO api & weather api
+  - tzwhere==2.3
+  - oauth==1.0.1
+  - urllib3==1.21.1
+  - oauthlib==2.0.2
+  - requests_oauthlib==0.8.0
+  - oauth2==1.9.0.post1
+  - geojson==1.3.5
+  - shapely==1.5.17.post1
+# modules installed for testing
+  - mock==2.0.0
