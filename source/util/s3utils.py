@@ -6,6 +6,8 @@ import boto3
 from boto3.s3.transfer import S3Transfer
 from botocore.exceptions import ClientError
 
+LOCAL_DATA_LOC = '/vsr-models/data'
+
 
 def get_environment(variable):
     try:
@@ -100,16 +102,24 @@ def download_s3file(filename, destlocation):
         return False
 
 
-def required_files(file):
+def required_files(s3file):
     """
     This function is designed to download files from s3 to data folder.
-    :param files:
+    :param s3file: s3 location of the file
+
+    :returns : local location of the file.
     """
-    if len(splitext(file)[1]) == 0:
+    if len(splitext(s3file)[1]) == 0:
         # downloading folder
-        download_folder = '/tmp/{}'.format(basename(file.rstrip('/')))
-        locate_files(file, download_folder)
+        download_folder = '{}/{}'.format(LOCAL_DATA_LOC, basename(s3file.rstrip('/')))
+        locate_files(s3file, download_folder)
         return download_folder
     else:
-        locate_files(file, '/tmp/')
-        return '/tmp/{}'.format(basename(file))
+        # if the file to be downloaded then download in its own folder; especially because the names gets messy
+        if splitext(basename(s3file))[1] == ".shp":
+            shp_own_folder = LOCAL_DATA_LOC + '/' + basename(dirname(s3file))
+            locate_files(s3file, shp_own_folder + '/')
+            return '{}/{}'.format(shp_own_folder, basename(s3file))
+        else:
+            locate_files(s3file, LOCAL_DATA_LOC + '/')
+            return '{}/{}'.format(LOCAL_DATA_LOC, basename(s3file))
